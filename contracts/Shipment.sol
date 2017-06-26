@@ -3,8 +3,10 @@ pragma solidity ^0.4.11;
 import "zeppelin/ownership/Ownable.sol";
 
 contract Shipment is Ownable {
-	enum Status { Pending }
+	enum Status { Pending, Assigned }
+
 	address public carrier;
+	address public sender;
 
 	struct Point {
 		uint latitude;
@@ -28,9 +30,13 @@ contract Shipment is Ownable {
 
 	Status status;
 
-	function Shipment(uint _pickupLatitude, uint _pickupLongitude, uint _deliveryLatitude, uint _deliveryLongitude) {
+	function Shipment(address _sender, uint _pickupLatitude, uint _pickupLongitude, uint _deliveryLatitude, uint _deliveryLongitude) {
+		sender = _sender;
+		status = Status.Pending;
 		pickup = Point(_pickupLatitude, _pickupLongitude);
 		delivery = Point(_deliveryLatitude, _deliveryLongitude);
-		status = Status.Pending;
+		StatusChange(address(this), Status.Pending);
 	}
+
+	event StatusChange(address shipment, Status status);
 }
