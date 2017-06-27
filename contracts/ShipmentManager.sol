@@ -8,11 +8,11 @@ contract ShipmentManager is Ownable {
 
   function ShipmentManager() {}
 
-  function createShipment(uint _pickupLatitude, uint _pickupLongitude, uint _deliveryLatitude, uint _deliveryLongitude) public returns (address) {
-    Shipment s = new Shipment(msg.sender, _pickupLatitude, _pickupLongitude, _deliveryLatitude, _deliveryLongitude);
-    NewShipment(address(s), msg.sender, shipmentCount, s.getStatus());
+  function createShipment(uint _maxStamps, uint _pickupLatitude, uint _pickupLongitude, uint _deliveryLatitude, uint _deliveryLongitude) public returns (address) {
+    Shipment s = new Shipment(msg.sender, _maxStamps, _pickupLatitude, _pickupLongitude, _deliveryLatitude, _deliveryLongitude);
+    NewShipment(address(s), msg.sender, shipmentCount);
     return (address(s));
   }
 
-  event NewShipment(address shipment, address sender, uint shipmentCount, Shipment.Status status);
+  event NewShipment(address shipment, address sender, uint shipmentCount);
 }

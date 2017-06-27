@@ -30,13 +30,16 @@ contract Shipment is Ownable {
 
 	Status status;
 
-	function Shipment(address _sender, uint _pickupLatitude, uint _pickupLongitude, uint _deliveryLatitude, uint _deliveryLongitude) {
+	uint public maxStamps;
+
+	function Shipment(address _sender, uint _maxStamps, uint _pickupLatitude, uint _pickupLongitude, uint _deliveryLatitude, uint _deliveryLongitude) {
 		sender = _sender;
+		maxStamps = _maxStamps;
 		status = Status.Pending;
 		pickup = Point(_pickupLatitude, _pickupLongitude);
 		delivery = Point(_deliveryLatitude, _deliveryLongitude);
-		StatusChange(address(this), Status.Pending);
+		StatusChanged(address(this), Status.Pending);
 	}
 
-	event StatusChange(address shipment, Status status);
+	event StatusChanged(address shipment, Status status);
 }
